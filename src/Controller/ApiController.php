@@ -46,7 +46,7 @@ final class ApiController extends AbstractController
     }
 
     #[Route('/api/produit/add', name: 'app_api_produit_add', methods: ['POST'])]
-    public function addProduit(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, int $id, ValidatorInterface $validator):JsonResponse
+    public function addProduit(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator):JsonResponse
     {
 
         $data = json_decode($request->getContent(), true);
@@ -56,6 +56,7 @@ final class ApiController extends AbstractController
 
         // Ajoute le produi en BDD
         $entityManager->persist($produit);
+        $entityManager->flush();
 
         // Valider l'objet produit
         $errors = $validator->validate($produit);
